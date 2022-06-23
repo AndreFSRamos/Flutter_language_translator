@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Controller/controller_language.dart';
+import 'package:flutter_application_1/Pages/filter_page.dart';
 import 'package:flutter_application_1/Pages/loading_page.dart';
 import 'package:flutter_application_1/ServicesAPI/service_language.dart';
 import 'package:flutter_application_1/Widget/build_list.dart';
+
 import 'package:flutter_application_1/Widget/search_language.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,15 +16,13 @@ class HomePage extends StatefulWidget {
 
 ControllerLanguage controllerLanguage = ControllerLanguage();
 TextEditingController controllerSearch = TextEditingController();
-
+GetValue getValue = GetValue();
 bool isLoading = false;
 
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
-    GetValue getValue = GetValue();
     getValue.getlanguages().then((value) {
       setState(() {
         controllerLanguage.setList(value);
@@ -39,9 +39,20 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         title: controllerSearch.text.isEmpty
             ? Text(
-                "Você possui ${controllerLanguage.getList().length} registros")
+                "Você possui ${controllerLanguage.getList().length} registros",
+                style: const TextStyle(fontSize: 16),
+              )
             : Text(
-                "${controllerLanguage.getList().length} resultados encontrados"),
+                "${controllerLanguage.getList().length} resultados encontrados",
+                style: const TextStyle(fontSize: 16)),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => Filterpage()));
+              },
+              icon: const Icon(Icons.filter_list_alt))
+        ],
       ),
       body: Column(
         children: [
@@ -61,12 +72,17 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
-    //====================== CRIANDO O EFEITO GRADIENTE =======================
   }
 
   void search(String value) {
     setState(() {
-      controllerLanguage.onChanged(value);
+      controllerLanguage.search(value);
+    });
+  }
+
+  void filter(String text, String value) {
+    setState(() {
+      controllerLanguage.filter(text, value);
     });
   }
 }

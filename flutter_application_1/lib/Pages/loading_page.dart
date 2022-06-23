@@ -8,26 +8,32 @@ class LoadingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
-      child: Center(
-        child: Column(
-          children: [
-            Container(
-              height: 200,
-              width: 200,
-              child: RiveAnimation.asset('assets/robo.riv'),
+      child: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 2,
+            width: MediaQuery.of(context).size.width,
+            child: const RiveAnimation.asset('assets/robo3.riv'),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 4,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              children: const [
+                Text(
+                  "Por favor Aguarde, estamos carregando seus dados.",
+                  style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Center(
+                  child: CircularProgressIndicator(),
+                )
+              ],
             ),
-            Text(
-              "Por favor Aguarde, estamos carregando seus dados.",
-              style: TextStyle(color: Colors.white),
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            Center(
-              child: CircularProgressIndicator(),
-            )
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

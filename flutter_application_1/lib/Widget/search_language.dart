@@ -35,6 +35,7 @@ class Search extends StatelessWidget {
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.search),
+                      color: Colors.blue,
                       onPressed: () {
                         search(controller.text);
                       },
