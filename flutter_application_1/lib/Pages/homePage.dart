@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Controller/controller_language.dart';
+import 'package:flutter_application_1/Pages/loading_page.dart';
 import 'package:flutter_application_1/ServicesAPI/service_language.dart';
+import 'package:flutter_application_1/Widget/build_list.dart';
+import 'package:flutter_application_1/Widget/search_language.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,6 +13,9 @@ class HomePage extends StatefulWidget {
 }
 
 ControllerLanguage controllerLanguage = ControllerLanguage();
+TextEditingController controllerSearch = TextEditingController();
+
+bool isLoading = false;
 
 class _HomePageState extends State<HomePage> {
   @override
@@ -20,62 +26,47 @@ class _HomePageState extends State<HomePage> {
     getValue.getlanguages().then((value) {
       setState(() {
         controllerLanguage.setList(value);
+        isLoading = true;
       });
     });
-    //print("teste");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: TextField(),
-          centerTitle: true,
-        ),
-        body: _BuildListView());
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        elevation: 0,
+        title: controllerSearch.text.isEmpty
+            ? Text(
+                "Você possui ${controllerLanguage.getList().length} registros")
+            : Text(
+                "${controllerLanguage.getList().length} resultados encontrados"),
+      ),
+      body: Column(
+        children: [
+          Search(
+            search: search,
+            hinttext: "Pesquise aqui",
+            controller: controllerSearch,
+          ),
+          const SizedBox(
+            height: 6,
+          ),
+          !isLoading
+              ? const LoadingPage()
+              : Expanded(
+                  child: BuildListView(controller: controllerLanguage),
+                ),
+        ],
+      ),
+    );
     //====================== CRIANDO O EFEITO GRADIENTE =======================
   }
 
-  _BuildListView() {
-    List<dynamic> items = controllerLanguage.getList();
-    return ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("created_at: ${items[index]['resource']['created_at']}"),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Text("updated_at: ${items[index]['resource']['updated_at']}"),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                      "resource_id: ${items[index]['resource']['resource_id']}"),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Text("module_id: ${items[index]['resource']['module_id']}"),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Text("value: ${items[index]['resource']['value']}"),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Text("value: ${items[index]['resource']['language_id']}"),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
+  void search(String value) {
+    setState(() {
+      controllerLanguage.onChanged(value);
+    });
   }
 }
