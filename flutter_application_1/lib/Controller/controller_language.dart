@@ -1,8 +1,8 @@
 List<dynamic> _languages = [];
 List<dynamic> _cachelanguages = [];
 List _filterModuleId = [
+  'Nenhum',
   'GreenMileCommons',
-  'BI',
   'central',
   'DEPOT',
   'GreenMileDepot',
@@ -21,6 +21,7 @@ List _filterModuleId = [
 ];
 
 List _filterLanguageId = [
+  'Nenhum',
   'en-g',
   'it',
   'th',
@@ -64,12 +65,12 @@ class ControllerLanguage {
     _languages = list;
   }
 
-  filter(String text, String value) {
+  filter(String value, String text) {
     List<dynamic> list = _cachelanguages
-        .where((element) => element['resource']['module_id']
+        .where((element) => element['resource'][value]
             .toString()
             .toLowerCase()
-            .contains('GreenMileDriverGeneric'.toLowerCase()))
+            .contains(text.toLowerCase()))
         .toList();
     _languages = list;
   }

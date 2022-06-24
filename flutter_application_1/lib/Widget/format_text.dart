@@ -14,19 +14,20 @@ class FormatText extends StatelessWidget {
           child: Text(
             title,
             style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 17),
+                color: Colors.white70,
+                fontWeight: FontWeight.bold,
+                fontSize: 17),
           ),
         ),
         Expanded(
           child: Text(
             desc,
             style: const TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                color: Colors.white70,
+                fontWeight: FontWeight.bold,
+                fontSize: 16),
           ),
         ),
-        const SizedBox(
-          height: 16,
-        )
       ],
     );
   }

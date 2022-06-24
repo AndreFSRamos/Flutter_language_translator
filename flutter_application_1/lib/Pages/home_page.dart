@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Controller/controller_language.dart';
-import 'package:flutter_application_1/Pages/filter_page.dart';
+import 'package:flutter_application_1/Model/menu_item.dart';
 import 'package:flutter_application_1/Pages/loading_page.dart';
 import 'package:flutter_application_1/ServicesAPI/service_language.dart';
+import 'package:flutter_application_1/Tiles/tiles_menu.dart';
 import 'package:flutter_application_1/Widget/build_list.dart';
-
 import 'package:flutter_application_1/Widget/search_language.dart';
+import 'filter_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -46,21 +47,21 @@ class _HomePageState extends State<HomePage> {
                 "${controllerLanguage.getList().length} resultados encontrados",
                 style: const TextStyle(fontSize: 16)),
         actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => Filterpage()));
-              },
-              icon: const Icon(Icons.filter_list_alt))
+          PopupMenuButton<MenuItem>(
+              onSelected: (item) => onSelected(context, item),
+              itemBuilder: ((context) =>
+                  MenuItems.itemsFist.map(buildItem).toList()))
         ],
       ),
       body: Column(
         children: [
-          Search(
-            search: search,
-            hinttext: "Pesquise aqui",
-            controller: controllerSearch,
-          ),
+          isLoading
+              ? Search(
+                  search: search,
+                  hinttext: "Pesquise aqui",
+                  controller: controllerSearch,
+                )
+              : Container(),
           const SizedBox(
             height: 6,
           ),
@@ -74,15 +75,63 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  PopupMenuItem<MenuItem> buildItem(MenuItem item) => PopupMenuItem<MenuItem>(
+        value: item,
+        child: Row(
+          children: [
+            const Icon(
+              Icons.filter_alt_outlined,
+              color: Colors.black,
+              size: 20,
+            ),
+            const SizedBox(
+              width: 12,
+            ),
+            Text(item.text),
+          ],
+        ),
+      );
+
+  onSelected(BuildContext context, MenuItem item) {
+    switch (item) {
+      case MenuItems.itemModeleId:
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => FilterPage(
+              filter: filter,
+              filterNull: search,
+              type: 'module_id',
+              title: "Filtar por Module_Id",
+              items: controllerLanguage.getFilterListModuleId(),
+            ),
+          ),
+        );
+        break;
+      case MenuItems.itemLangugeId:
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => FilterPage(
+              filter: filter,
+              filterNull: search,
+              type: 'language_id',
+              title: "Filtar por Language_Id",
+              items: controllerLanguage.getLisFilterListLanguageId(),
+            ),
+          ),
+        );
+        break;
+    }
+  }
+
   void search(String value) {
     setState(() {
       controllerLanguage.search(value);
     });
   }
 
-  void filter(String text, String value) {
+  void filter(String value, String text) {
     setState(() {
-      controllerLanguage.filter(text, value);
+      controllerLanguage.filter(value, text);
     });
   }
 }

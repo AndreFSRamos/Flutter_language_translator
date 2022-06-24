@@ -16,8 +16,6 @@ class LoadingPage extends StatelessWidget {
             child: const RiveAnimation.asset('assets/robo3.riv'),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 4,
-            width: MediaQuery.of(context).size.width,
             child: Column(
               children: const [
                 Text(
