@@ -1,15 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Model/menu_item.dart';
+import '../Model/menu_item.dart';
 
-class MenuItems {
-  static const List<MenuItem> itemsFist = [
+class MenuItems<Menuitem> {
+  static final itemModeleId = MenuItem(text: "Module ID");
+
+  static final itemLangugeId = MenuItem(text: "Language ID");
+
+  static final List itemsFist = [
     itemModeleId,
     itemLangugeId,
   ];
-
-  static const itemModeleId =
-      MenuItem(text: "Module ID", icon: Icon(Icons.filter_alt_rounded));
-
-  static const itemLangugeId =
-      MenuItem(text: "Language ID", icon: Icon(Icons.filter_alt_rounded));
 }

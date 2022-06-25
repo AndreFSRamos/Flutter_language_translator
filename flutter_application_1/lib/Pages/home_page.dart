@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Controller/controller_language.dart';
-import 'package:flutter_application_1/Model/menu_item.dart';
 import 'package:flutter_application_1/Pages/loading_page.dart';
 import 'package:flutter_application_1/ServicesAPI/service_language.dart';
 import 'package:flutter_application_1/Tiles/tiles_menu.dart';
@@ -47,7 +46,7 @@ class _HomePageState extends State<HomePage> {
                 "${controllerLanguage.getList().length} resultados encontrados",
                 style: const TextStyle(fontSize: 16)),
         actions: [
-          PopupMenuButton<MenuItem>(
+          PopupMenuButton(
               onSelected: (item) => onSelected(context, item),
               itemBuilder: ((context) =>
                   MenuItems.itemsFist.map(buildItem).toList()))
@@ -75,7 +74,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  PopupMenuItem<MenuItem> buildItem(MenuItem item) => PopupMenuItem<MenuItem>(
+  PopupMenuItem buildItem(item) => PopupMenuItem(
         value: item,
         child: Row(
           children: [
@@ -92,9 +91,37 @@ class _HomePageState extends State<HomePage> {
         ),
       );
 
-  onSelected(BuildContext context, MenuItem item) {
-    switch (item) {
-      case MenuItems.itemModeleId:
+  onSelected(BuildContext context, item) {
+    if (MenuItems.itemModeleId.text == "Module ID") {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => FilterPage(
+            filter: filter,
+            filterNull: search,
+            type: 'module_id',
+            title: "Filtar por Module_Id",
+            items: controllerLanguage.getFilterListModuleId(),
+          ),
+        ),
+      );
+    }
+
+    if (MenuItems.itemLangugeId.text == "Language ID") {
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => FilterPage(
+            filter: filter,
+            filterNull: search,
+            type: 'language_id',
+            title: "Filtar por Language_Id",
+            items: controllerLanguage.getLisFilterListLanguageId(),
+          ),
+        ),
+      );
+    }
+
+    /*switch (item) {
+      case (MenuItems.itemModeleId.text == "Module ID":
         Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => FilterPage(
@@ -108,19 +135,9 @@ class _HomePageState extends State<HomePage> {
         );
         break;
       case MenuItems.itemLangugeId:
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => FilterPage(
-              filter: filter,
-              filterNull: search,
-              type: 'language_id',
-              title: "Filtar por Language_Id",
-              items: controllerLanguage.getLisFilterListLanguageId(),
-            ),
-          ),
-        );
+       
         break;
-    }
+    }*/
   }
 
   void search(String value) {

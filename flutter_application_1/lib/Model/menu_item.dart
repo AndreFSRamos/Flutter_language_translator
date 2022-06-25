@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
-
 class MenuItem {
-  final String text;
-  final Icon icon;
+  String text;
 
-  const MenuItem({required this.text, required this.icon});
+  MenuItem({required this.text});
 }
