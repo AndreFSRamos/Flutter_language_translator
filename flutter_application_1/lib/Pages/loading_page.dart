@@ -1,3 +1,8 @@
+//Pagina meramente ilustrativa, para informar o usuario que os dados estão sendo
+// carregados e que deve aguardar, é exibida somente durante a instalação ou caso
+// seja preciso efeturar a requisição da API novamente. Ela contem uma animação
+// do tipo RIV, um Text e um Circular Procresse.
+
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 

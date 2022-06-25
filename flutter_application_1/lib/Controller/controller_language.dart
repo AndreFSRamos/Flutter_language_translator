@@ -1,81 +1,71 @@
-List<dynamic> _languages = [];
-List<dynamic> _cachelanguages = [];
-List _filterModuleId = [
-  'Nenhum',
-  'GreenMileCommons',
-  'central',
-  'DEPOT',
-  'GreenMileDepot',
-  'GreenMileDriverJME',
-  'BSBoard',
-  'GreenMileMyOrder',
-  'JME',
-  'LiveFeed',
-  'GreenMileDriver',
-  'GreenMileManager',
-  'GreenMileTrack',
-  'GreenMileLoader',
-  'DIManager',
-  'MANAGER ',
-  'GreenMileReport'
-];
+//Class reponsavel pelos preocsso logicos da aplicação.
 
-List _filterLanguageId = [
-  'Nenhum',
-  'en-g',
-  'it',
-  'th',
-  'es',
-  'ja',
-  'fr',
-  'ru',
-  'de',
-  'en',
-  'he',
-  'pl',
-  'ar',
-  'pt',
-  'cs',
-  'ro'
-];
+import 'package:flutter_application_1/Model/language.dart';
+
+//Criação das List de objetos Language.
+List<Languages> _languages = [];
+List<Languages> _cachelanguages = [];
 
 class ControllerLanguage {
-  void setList(List<dynamic> language) {
+  //Função que recebe os dados recuperado da initState da homePage, em seguida são
+  // armazenadas nas lista para serem usados em outra função.
+  void setList(List<Languages> language) {
     _languages = language;
     _cachelanguages = language;
+    //print("teste 7");
   }
 
-  List<dynamic> getList() {
+  //Função para as outras parte da aplicação terem acesso é usado na aplicação para
+  // as partes terem acesso, sem acessa diretamente as listas. Ela rertona a lista items
+  // a serem exibidas ou tratadas.
+  List<Languages> getList() {
     return _languages;
   }
 
-  List<dynamic> getFilterListModuleId() {
-    return _filterModuleId;
-  }
-
-  List<dynamic> getLisFilterListLanguageId() {
-    return _filterLanguageId;
-  }
-
+  // função de pesqui do tipo "contém", ela emgloba apenas a pesquisa do atributo
+  // created_at do objeto Language.
   search(String value) {
-    List<dynamic> list = _cachelanguages
-        .where((element) =>
-            element.toString().toLowerCase().contains(value.toLowerCase()))
-        .toList();
-    _languages = list;
-  }
-
-  filter(String value, String text) {
-    List<dynamic> list = _cachelanguages
-        .where((element) => element['resource'][value]
+    List<Languages> result = _cachelanguages
+        .where((language) => language.created_at
             .toString()
             .toLowerCase()
-            .contains(text.toLowerCase()))
+            .contains(value.toLowerCase()))
         .toList();
+    _languages = result;
+  }
+
+  //Função de filtro pelo atributo Language_id, com o auxilio do laço for é comparado
+  // a escolha da opção do filtro com o atributo language_id de cadas item da lista,
+  // caso sejam iguais, sera adicionada a list e no final passado essa list para a
+  // _language. O mesmo principio se aplica a Função de filtro por module_id.
+  filterLanguage(String text) {
+    List<Languages> list = [];
+    for (int i = 0; i < _cachelanguages.length; i++) {
+      if (_cachelanguages[i].language_id.toString().toLowerCase() ==
+          text.toLowerCase()) {
+        list.add(_cachelanguages[i]);
+      }
+    }
     _languages = list;
   }
 
-  /*tratar() {
+  filterModule(String text) {
+    List<Languages> list = [];
+    for (int i = 0; i < _cachelanguages.length; i++) {
+      if (_cachelanguages[i].module_id.toString().toLowerCase() ==
+          text.toLowerCase()) {
+        list.add(_cachelanguages[i]);
+      }
+    }
+    _languages = list;
+  }
+
+  /*
+  
+   Foi usado para extrarir e filtrar as opções repetidas de dos atruibutos de modelu_ID 
+  e language_id, com a finalidade de otimizar o sistema.
+  
+  tratar() {
     List result = [];
     String aux = "";
     int count = 0;

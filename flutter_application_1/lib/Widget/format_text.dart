@@ -1,3 +1,7 @@
+// Esse Widget foi criado com a finalidade de economizar linhas de código e deixa-lo
+// organizado, pois é um widget que se repete. Ela recebe por parâmetro duas String
+// que são formatadas e retornadas. Ela é acionada  pela TilesLanguage.
+
 import 'package:flutter/material.dart';
 
 class FormatText extends StatelessWidget {
@@ -6,6 +10,7 @@ class FormatText extends StatelessWidget {
 
   final String title;
   final String desc;
+
   @override
   Widget build(BuildContext context) {
     return Row(

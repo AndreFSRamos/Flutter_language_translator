@@ -1,3 +1,9 @@
+// Widget Search(Barra de pesquisa) se encontra logo a baixo da APPBAR, ela é acionada pela HomePage,
+// logo após a aplicação receber a requisição da API. Ela receber por parâmetro , uma String "hinttext"
+// responsavel por exibir a messagem "Pesquise aqui", uma TextEditingController que coleta a infomar
+// a ser pesquisada a função "search" que é executada ao clicar no iconbuttom, e ira retornor a informação
+// da pesquisa.
+
 import 'package:flutter/material.dart';
 
 class Search extends StatelessWidget {
@@ -12,6 +18,8 @@ class Search extends StatelessWidget {
   final Function(String) search;
   final TextEditingController controller;
 
+  //É construida em uma ROW e envolvida por um CONTAINER para criar o efeito de
+  //bordas arrendondadas.
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +27,6 @@ class Search extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            // Campo de texo da barra de pesquisa.
             child: Container(
               height: 42,
               margin: const EdgeInsets.fromLTRB(4, 0, 4, 6),
